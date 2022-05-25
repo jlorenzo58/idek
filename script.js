@@ -25,11 +25,13 @@ let result = {
 }
 
 
+
+
+
 document.addEventListener('keyup',onKeyUp);
 
 function onKeyUp (e){
-    
-    //updateText(e);
+
 
     //console.log(e);
     updateVowels(e.code);
@@ -40,13 +42,25 @@ function onKeyUp (e){
     result.longestWord = findLongestWord(textArea.value);
     result.shortestWord = findShortestWord(textArea.value);
 
-    result.lastThreeWords = findLastThreeWords(textArea.value);
+    result.lastThreeWords = getLastWords(textArea.value);
     //console.log("//////////", getLastWords("The lazy dog"));
 
+    var indices = findWaldo("waldo",textArea.value);
+    result.waldoIndexes = indices;
 
-
+    renderResults();
 
 }
+
+document.addEventListener('keydown',(e)=>{
+    //console.log(e);
+    if(e.code == "Backspace"){
+        let tempChar = e.target.value.slice(-1);
+        updateObject(tempChar);
+    }
+
+
+})
 
 function updateVowels (char){
     switch(char){
@@ -165,6 +179,53 @@ function findWaldo(searchStr, str, caseSensitive) {
 
 // const temp = Object.keys(result);
 
+function updateObject(char){
+    let newChar = char.toLowerCase();
+    if(newChar=='a' && result.vowels.a>=1){
+        result.vowels.a--;
+    }
+    else if(newChar=='e' && result.vowels.e>=1){
+        result.vowels.e--;
+    }
+    else if(newChar=='i' && result.vowels.i>=1){
+        result.vowels.i--;
+    }
+    else if(newChar=='o' && result.vowels.o>=1){
+        result.vowels.o--;
+    }
+    else if(newChar=='u' && result.vowels.u>=1){
+        result.vowels.u--;
+    }
+    else if(newChar=='!' && result.punctuation.exclamation>=1){
+        result.punctuation.exclamation--;
+    }
+    else if(newChar==',' && result.punctuation.comma>=1){
+        result.punctuation.comma--;
+    }
+    else if(newChar=='.' && result.punctuation.period>=1){
+        result.punctuation.period--;
+    }
+    else if(newChar=='?' && result.punctuation.questionMark>=1){
+        result.punctuation.questionMark--;
+    }
+    else{
+        return;
+    }
+}
+let newElement = document.createElement('div');
+results.append(newElement);
 
+function renderResults(){
+    newElement.innerHTML = "vowel count";
+    newElement.innerHTML += "a"+ result.vowels.a;
+    newElement.innerHTML += "e"+result.vowels.e;
+    newElement.innerHTML += "i "+result.vowels.i;
+    newElement.innerHTML += "o"+result.vowels.o;
+    newElement.innerHTML += "u"+result.vowels.u;
 
+    newElement.innerHTML += "?"+result.punctuation.questionMark;
+    newElement.innerHTML += ". "+result.punctuation.period;
+    newElement.innerHTML += ","+result.punctuation.comma;
+    newElement.innerHTML += "!"+result.punctuation.exclamation;
 
+}

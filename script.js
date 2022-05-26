@@ -1,5 +1,7 @@
 let textArea = document.getElementById("text");   //textArea is now assigned to the element with the ID, text from the html
 let results = document.getElementById("results"); //results is now assigned to the element with the ID, results from the html
+let button= document.getElementById("btn");
+
 
 let result = {  // object with "key-value pairs". the values are given an initial value
     text: "", 
@@ -240,3 +242,24 @@ function renderResults(){
     secondNewElement.innerHTML +="<h3>Waldo Indeces:" + result.waldoIndexes+ "</h3>";
 
 }
+
+btn.addEventListener("click",(e)=>{
+    result.text = "";
+    result.vowels.a=0;
+    result.vowels.e=0;
+    result.vowels.i=0;
+    result.vowels.o=0;
+    result.vowels.u=0;
+    result.punctuation.comma=0;
+    result.punctuation.period=0;
+    result.punctuation.exclamation=0;
+    result.punctuation.questionMark=0;
+    result.numWords = 0;
+    result.numCharacters=0;
+    result.shortestWord="";
+    result.longestWord="";
+    result.lastThreeWords=["","",""];
+    result.waldoIndexes=[];
+    textArea.value="";
+    renderResults();
+})

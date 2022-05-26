@@ -1,7 +1,7 @@
-let textArea = document.getElementById("text");
-let results = document.getElementById("results");
+let textArea = document.getElementById("text");   //textArea is now assigned to the element with the ID, text from the html
+let results = document.getElementById("results"); //results is now assigned to the element with the ID, results from the html
 
-let result = {
+let result = {  // object with "key-value pairs". the values are given an initial value
     text: "", 
     vowels: {
       a: 0,
@@ -24,42 +24,39 @@ let result = {
     waldoIndexes: [],
 }
 
+document.addEventListener('keyup',onKeyUp); // listen for when the keyboard is DONE being pressed, then execute "onKeyUp" function everytime
+function onKeyUp (e){ // as just mentioned, this is executed everytime the keyboard is DONE being pressed.
+    /* Based on what the user inputs, it changes values inside the object. Each of these functions/assignments assign actual values to the values in the object above. */
 
+    updateVowels(e.code);  //this function is called to see if some vowels need to be incremented. e.code is passed as a paramater. go to update value functions for more
+    updatePunctuation(e.code); // this function is the same idea as the one above, but instead of vowels, its different puncuations
 
+    result.text=(textArea.value);   //textArea.value is the text inside the textarea thats showed in the html. remember "textArea" was assigned to this above.
+    result.numWords = wordCount(textArea.value);   //word count returns the amount of words inside the textarea on the html page. this is because textarea.value is the ENTIRE text in the text area, and it is passed as a parameter to the function.
+    result.numCharacters = textArea.value.length; // this is simple. textarea.value is the ENTIRE text or "string" inside the text field in the html page. by simply putting the .length at the end, it gives the amount of characters inside the text field also called the length of the string
+    result.longestWord = findLongestWord(textArea.value);     //findLongestWord returns the longest word inside the text area
+    result.shortestWord = findShortestWord(textArea.value);    //findshortestword return the shortest word inside the text area. it is assigned to "shortestWord" that is inside the object
+    result.lastThreeWords = getLastWords(textArea.value);       // getLastWords returns the last three words of the entire text field. it is assigned to "lastThreeWords" that is inside the object
 
+    var indices = findWaldo("waldo",textArea.value);    // findWaldo returns the starting indices of when waldo is typed in the text field. it is then assigned to a local variable "indices"
+    result.waldoIndexes = indices;          //the local variable just assigned is then used to set waldoIndexes that is inside the object to this value
 
-document.addEventListener('keyup',onKeyUp);
-
-function onKeyUp (e){
-
-    updateVowels(e.code);
-    updatePunctuation(e.code);
-    result.text=(textArea.value);
-    result.numWords = wordCount(textArea.value);
-    result.numCharacters = textArea.value.length;
-    result.longestWord = findLongestWord(textArea.value);
-    result.shortestWord = findShortestWord(textArea.value);
-
-    result.lastThreeWords = getLastWords(textArea.value);
-
-    var indices = findWaldo("waldo",textArea.value);
-    result.waldoIndexes = indices;
-
-    renderResults();
+    renderResults();  //display everything above
 }
 
-document.addEventListener('keydown',(e)=>{
-    //console.log(e);
-    if(e.code == "Backspace"){
-        let tempChar = e.target.value.slice(-1);
-        updateObject(tempChar);
+document.addEventListener('keydown',(e)=>{      
+    /* this addeventlistener is a bit different then the one above. It helps get the character 
+    that was just deleted when pressing backspace, which 'keyup' event listener can not do. */
+    if(e.code == "Backspace"){ //if user presses backspace
+        let tempChar = e.target.value.slice(-1); // save the character that was deleted
+        updateObject(tempChar);         // and decrement the values inside the object accordingly. If it was an 'a' that was deleted, decrement a's value and so on.
     }
 
 
 })
 
-function updateVowels (char){
-    switch(char){
+function updateVowels (char){   
+    switch(char){   //based on the parameter, see if it is a vowel, if it is, find out which one. if its a, increment a, if e increment e, so on.
         case 'KeyA': 
             result.vowels.a++; 
             console.log(result.vowels.a);
@@ -84,7 +81,7 @@ function updateVowels (char){
     return;
 }
 
-function updatePunctuation (sign){
+function updatePunctuation (sign){//same idea as above
     switch(sign){
         case 'Digit1':
             result.punctuation.exclamation++;
@@ -106,10 +103,11 @@ function updatePunctuation (sign){
 }
 
 function wordCount(text) {
-    return text.split(" ").length;
+    return text.split(" ").length;  /*everytime theres a space inside "text", save the words into an array. 
+         the .length returns the size of the array when finished which is also the amount of words inside "text"*/
 }
 
-function findLongestWord(str){
+function findLongestWord(str){  //too much to explain, but its a function the returns the longest word
     let strSplit = str.split(' ');
     let longestWord =0;
     let tempResult = "";
@@ -122,7 +120,7 @@ function findLongestWord(str){
     return tempResult;
 }
 
-function findShortestWord(str) {
+function findShortestWord(str) {  //finds shortest word
     var words = str.split(' ');
     var shortest = words.reduce((shortestWord, currentWord) => {
       return currentWord.length < shortestWord.length ? currentWord : shortestWord;
@@ -131,7 +129,7 @@ function findShortestWord(str) {
 }
 
 
-function getLastWords(str){
+function getLastWords(str){  //gets last three words.
     const arr = str.split(' ');
     const forReturn =["","",""];
     if(arr.length>=3){
@@ -155,7 +153,7 @@ function getLastWords(str){
     return forReturn;
 }
 
-function findWaldo(searchStr, str, caseSensitive) {
+function findWaldo(searchStr, str, caseSensitive) {  //determines if word is = to waldo.
     let searchStrLen = searchStr.length;
     if (searchStrLen == 0) {
         return [];
@@ -172,7 +170,7 @@ function findWaldo(searchStr, str, caseSensitive) {
     return indices;
 }
 
-function updateObject(char){
+function updateObject(char){  //decrement values inside the object accordingly
     let newChar = char.toLowerCase();
     if(newChar=='a' && result.vowels.a>=1){
         result.vowels.a--;
@@ -205,6 +203,8 @@ function updateObject(char){
         return;
     }
 }
+
+//displaying information
 let newElement = document.createElement('div');
 results.append(newElement);
 

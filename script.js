@@ -206,32 +206,37 @@ function updateObject(char){  //decrement values inside the object accordingly
 
 //displaying information
 let newElement = document.createElement('div');
-results.append(newElement);
+newElement.classList.add("firstElement");
+results.appendChild(newElement);
+
+let secondNewElement = document.createElement('div');
+secondNewElement.classList.add("secondElement");
+results.appendChild(secondNewElement);
+
+// var sheet = document.createElement('style')
+// sheet.innerHTML = "div {width:300px; }";
+// newElement.appendChild(sheet);
 
 function renderResults(){
-    newElement.innerHTML = "vowel count";
-    newElement.innerHTML += "a"+ result.vowels.a;
-    newElement.innerHTML += "e"+result.vowels.e;
-    newElement.innerHTML += "i "+result.vowels.i;
-    newElement.innerHTML += "o"+result.vowels.o;
-    newElement.innerHTML += "u"+result.vowels.u;
+    newElement.innerHTML ="<h2>Text Analysis</h2>";
+    newElement.innerHTML += "<h3>Vowel Counts</h3>";
+    newElement.innerHTML += "<p>a: "+ result.vowels.a; +"</p>";
+    newElement.innerHTML += "<p>e: "+result.vowels.e+"</p>";
+    newElement.innerHTML += "<p>i: "+result.vowels.i+"</p>";
+    newElement.innerHTML += "<p>o: "+result.vowels.o+"</p>";
+    newElement.innerHTML += "<p>u: "+result.vowels.u+"</p>";
 
-    newElement.innerHTML += "?"+result.punctuation.questionMark;
-    newElement.innerHTML += ". "+result.punctuation.period;
-    newElement.innerHTML += ","+result.punctuation.comma;
-    newElement.innerHTML += "!"+result.punctuation.exclamation;
+    newElement.innerHTML += "<h3>Punctuation Counts</h3>";
+    newElement.innerHTML += "<p>Periods: "+result.punctuation.period+"</p>";
+    newElement.innerHTML += "<p>Commas: "+result.punctuation.comma+"</p>";
+    newElement.innerHTML += "<p>Question Marks: "+result.punctuation.questionMark+"</p>";
+    newElement.innerHTML += "<p>Exclamation Marks: "+result.punctuation.exclamation+"</p>";
 
-    newElement.innerHTML +="///NUM OF CHARACTER :" + result.numCharacters;
-
-    newElement.innerHTML +="///NUM OF WORDS :" + result.numWords;
-
-    newElement.innerHTML +="///LAST THREE WORDS :" + result.lastThreeWords;
-
-    newElement.innerHTML +="///LONGEST WORD:" + result.longestWord;
-
-    newElement.innerHTML +="///SHORTEST WORD :" + result.shortestWord;
-
-    newElement.innerHTML +="///WALDO INDEXES :" + result.waldoIndexes;
-
+    secondNewElement.innerHTML ="<br /><br /><br /> <h3>Number Of Characters:" + result.numCharacters+"</h3>";
+    secondNewElement.innerHTML +="<h3>Num Of Words :" + result.numWords+"</h3>";
+    secondNewElement.innerHTML +="<h3>Longest Word:" + result.longestWord+"</h3>";
+    secondNewElement.innerHTML +="<h3>Shortest Word:" + result.shortestWord+"</h3>";
+    secondNewElement.innerHTML +="<h3>Last Three:" + result.lastThreeWords+"</h3>";
+    secondNewElement.innerHTML +="<h3>Waldo Indeces:" + result.waldoIndexes+ "</h3>";
 
 }

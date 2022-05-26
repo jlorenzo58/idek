@@ -20,7 +20,7 @@ let result = {
     numWords: 0,
     longestWord: "",
     shortestWord: "",
-    lastThreeWords: [],
+    lastThreeWords: ["","",""],
     waldoIndexes: [],
 }
 
@@ -32,24 +32,20 @@ document.addEventListener('keyup',onKeyUp);
 
 function onKeyUp (e){
 
-
-    //console.log(e);
     updateVowels(e.code);
     updatePunctuation(e.code);
-    result.text=(textArea.value.length);
-    wordCount(textArea.value);
-    //console.log(findLongestWord("The quick brown fox jumped over the lazy dog"));
+    result.text=(textArea.value);
+    result.numWords = wordCount(textArea.value);
+    result.numCharacters = textArea.value.length;
     result.longestWord = findLongestWord(textArea.value);
     result.shortestWord = findShortestWord(textArea.value);
 
     result.lastThreeWords = getLastWords(textArea.value);
-    //console.log("//////////", getLastWords("The lazy dog"));
 
     var indices = findWaldo("waldo",textArea.value);
     result.waldoIndexes = indices;
 
     renderResults();
-
 }
 
 document.addEventListener('keydown',(e)=>{
@@ -145,13 +141,13 @@ function getLastWords(str){
     }
     else if(arr.length == 1){
             forReturn[2]=arr[arr.length-1];
-            forReturn[1]="0";
-            forReturn[0]="0";
+            forReturn[1]="";
+            forReturn[0]="";
     }
     else if(arr.length == 2){
         forReturn[2]=arr[arr.length-1];
         forReturn[1]=arr[arr.length-2];
-        forReturn[0]="0";
+        forReturn[0]="";
     }
     else{
         return forReturn;
@@ -175,9 +171,6 @@ function findWaldo(searchStr, str, caseSensitive) {
     }
     return indices;
 }
-
-
-// const temp = Object.keys(result);
 
 function updateObject(char){
     let newChar = char.toLowerCase();
@@ -227,5 +220,18 @@ function renderResults(){
     newElement.innerHTML += ". "+result.punctuation.period;
     newElement.innerHTML += ","+result.punctuation.comma;
     newElement.innerHTML += "!"+result.punctuation.exclamation;
+
+    newElement.innerHTML +="///NUM OF CHARACTER :" + result.numCharacters;
+
+    newElement.innerHTML +="///NUM OF WORDS :" + result.numWords;
+
+    newElement.innerHTML +="///LAST THREE WORDS :" + result.lastThreeWords;
+
+    newElement.innerHTML +="///LONGEST WORD:" + result.longestWord;
+
+    newElement.innerHTML +="///SHORTEST WORD :" + result.shortestWord;
+
+    newElement.innerHTML +="///WALDO INDEXES :" + result.waldoIndexes;
+
 
 }
